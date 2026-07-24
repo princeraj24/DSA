@@ -1,6 +1,38 @@
 class Solution {
 public:
     typedef pair<int, int> P;
+    int PrimsAlgo(vector<vector<P>>& adj, int n){
+        vector<bool> vis(n, false);
+
+        priority_queue<P, vector<P>, greater<P>> pq;
+        pq.push({0, 0});
+        int cost = 0;
+
+        while(!pq.empty()){
+            int wt = pq.top().first;
+            int node = pq.top().second;
+            pq.pop();
+
+            if(vis[node]){  // already visited
+                continue;
+            }
+
+            vis[node] = true;
+            cost += wt;
+
+            for(auto& ngbr : adj[node]){
+                int ngbrNode = ngbr.first;
+                int ngbrWt = ngbr.second;
+
+                if(vis[ngbrNode]){  // already visited
+                    continue;
+                }
+
+                pq.push({ngbrWt, ngbrNode});
+            }
+        }
+        return cost;
+    }
     int minCostConnectPoints(vector<vector<int>>& points) {
         int n = points.size();
         vector<vector<P>> adj(n);
@@ -20,35 +52,6 @@ public:
             }
         }
 
-        vector<bool> vis(n, false);
-
-        priority_queue<P, vector<P>, greater<P>> pq;
-        pq.push({0, 0});
-        int cost = 0;
-
-        while(!pq.empty()){
-            int wt = pq.top().first;
-            int node = pq.top().second;
-            pq.pop();
-
-            if(vis[node]){
-                continue;
-            }
-
-            vis[node] = true;
-            cost += wt;
-
-            for(auto& ngbr : adj[node]){
-                int ngbrNode = ngbr.first;
-                int ngbrWt = ngbr.second;
-
-                if(vis[ngbrNode]){
-                    continue;
-                }
-
-                pq.push({ngbrWt, ngbrNode});
-            }
-        }
-        return cost;
+        return PrimsAlgo(adj, n);
     }
 };

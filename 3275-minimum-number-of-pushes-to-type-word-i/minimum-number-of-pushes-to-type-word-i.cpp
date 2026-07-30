@@ -3,21 +3,21 @@ public:
     int minimumPushes(string word) {
         int n = word.size();
 
-        unordered_map<int, int> mp;
-        int assign_key = 2;
-        int output = 0;
-
+        // store freq in a vector of size 26
+        vector<int> freq(26, 0);
         for(char ch : word){
-            if(assign_key > 9){
-                assign_key = 2;
-            }
-
-            mp[assign_key]++;
-            output += mp[assign_key];
-            
-            assign_key++;
+            freq[ch - 'a']++;
         }
 
-        return output;
+        sort(freq.begin(), freq.end(), greater<int>());  // sort based on freq. in descending order
+        int result = 0;
+        for(int i = 0; i < 26; i++){
+            int cnt = freq[i];
+            int press = (i/8 + 1);
+
+            result += cnt * press;
+        }
+        
+        return result;
     }
 };

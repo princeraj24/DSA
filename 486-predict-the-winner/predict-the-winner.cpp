@@ -1,37 +1,31 @@
 class Solution {
 public:
-    bool isValid(int i, int j, int score1, int score2, vector<int>& nums){
+    int solve(int i, int j, vector<int>& nums){
         if(i > j){
-            return score1 >= score2;
+            return 0;
         }
 
         if(i == j){
-            return score1 + nums[i] >= score2;
+            return nums[i];
         }
 
-        // Player 1 takes left
-        bool left = true;
-        
-        // Player 2 takes right
-        left &= isValid(i + 1, j - 1, score1 + nums[i], score2 + nums[j], nums);
-        // Player 2 takes left
-        left &= isValid(i + 2, j, score1 + nums[i], score2 + nums[i+1], nums);
-        
+        int take_i = nums[i] + min(solve(i+2, j, nums), solve(i+1, j-1, nums));
+        int take_j = nums[j] + min(solve(i+1, j-1, nums), solve(i, j-2, nums));
 
-
-        // Player 1 takes right
-        bool right = true;
-
-        // Player 2 takes left
-        right &= isValid(i + 1, j - 1, score1 + nums[j], score2 + nums[i], nums);
-        // Player 2 takes right
-        right &= isValid(i, j - 2, score1 + nums[j], score2 + nums[j - 1], nums);
-
-        return left || right;
+        return max(take_i, take_j);
     }
     bool predictTheWinner(vector<int>& nums) {
         int n = nums.size();
-        
-        return isValid(0, n-1, 0, 0, nums);
+
+        int total_score = 0;
+        for(int i = 0; i < n; i++){
+            total_score += nums[i];
+        }
+
+        int player1_score = solve(0, n-1, nums);
+
+        int player2_score = total_score - player1_score;
+
+        return player1_score >= player2_score;
     }
 };

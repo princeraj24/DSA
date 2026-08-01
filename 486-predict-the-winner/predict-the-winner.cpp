@@ -1,5 +1,11 @@
+/* 
+    That's how optimal game strategy works. Expect your opponet to be playing optimally
+    -When it's your turn, do your best(take max())
+    -When it's your opponet's turn, expect the worst case (that's why min() is taken below)
+*/
 class Solution {
 public:
+    int t[21][21];
     int solve(int i, int j, vector<int>& nums){
         if(i > j){
             return 0;
@@ -9,12 +15,17 @@ public:
             return nums[i];
         }
 
+        if(t[i][j] != -1){
+            return t[i][j];
+        }
+
         int take_i = nums[i] + min(solve(i+2, j, nums), solve(i+1, j-1, nums));
         int take_j = nums[j] + min(solve(i+1, j-1, nums), solve(i, j-2, nums));
 
-        return max(take_i, take_j);
+        return t[i][j] = max(take_i, take_j);
     }
     bool predictTheWinner(vector<int>& nums) {
+        memset(t, -1, sizeof(t));
         int n = nums.size();
 
         int total_score = 0;

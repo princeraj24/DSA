@@ -1,3 +1,4 @@
+// Approach 1
 class Solution {
 public:
     int t[501][501];
@@ -33,5 +34,18 @@ public:
         int bobStones = totalStones - aliceStones;
 
         return aliceStones >= bobStones;
+    }
+};
+
+// Approach 2
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        // Notice that,  n is even and the total is odd (Already given in the problem). Split the piles into even-indexed piles (0, 2, 4,.....) and odd-indexed piles (1, 3, 5,....). There are exactly n/2 of each. Since the total is odd, 
+        // sum_even ≠ sum_odd, so one group is strictly larger. 
+        // Alice simply picks that group which has larger sum.
+        // Alice can always pick all odd index elements or all even index elements
+        
+        return true;
     }
 };

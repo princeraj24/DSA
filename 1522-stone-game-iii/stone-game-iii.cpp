@@ -1,50 +1,42 @@
 class Solution {
 public:
-    int t[2][50001];
+    int t[50001];
     int n;
-    int solveForAlice(int person, int i, vector<int>& stoneValue){
+    int solve(int i, vector<int>& stoneValue){
         if(i >= n){
             return 0;
         }
 
-        if(t[person][i] != -1){
-            return t[person][i];
+        if(t[i] != -1){
+            return t[i];
         }
 
-        int result = (person == 1) ? INT_MIN : INT_MAX;
+        int result = INT_MIN;
         int stones = 0;
-        for(int x = i; x <= min(i + 2, n - 1); x++){
-            
-            stones += stoneValue[x];
+        
+        result = max(result, stoneValue[i] - solve(i+1, stoneValue));
 
-            if(person == 1){  // Alice turn
-                result = max(result, stones + solveForAlice(0, x + 1, stoneValue));
-            }
-
-            else {   //Bob's turn
-                result = min(result, solveForAlice(1, x + 1, stoneValue));
-            }
+        if(i + 1 < n){
+            result = max(result, stoneValue[i] + stoneValue[i+1] - solve(i+2, stoneValue));
+        }
+        
+        if(i + 2 < n){
+            result = max(result, stoneValue[i] + stoneValue[i+1] + stoneValue[i+2] - solve(i+3, stoneValue));
         }
 
-        return t[person][i] = result;
+        return t[i] = result;
     }
     string stoneGameIII(vector<int>& stoneValue) {
         n = stoneValue.size();
         memset(t, -1, sizeof(t));
 
-        int total_score = 0;
-        for(int i = 0; i < n; i++){
-            total_score += stoneValue[i];
-        }
+        int net_Score = solve(0, stoneValue);
 
-        int alice_score = solveForAlice(1, 0, stoneValue);
-        int bob_score = total_score - alice_score;
-
-        if(alice_score > bob_score){
+        if(net_Score > 0){
             return "Alice";
         }
 
-        else if(bob_score > alice_score){
+        else if(net_Score < 0){
             return "Bob";
         }
 

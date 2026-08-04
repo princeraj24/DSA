@@ -2,10 +2,13 @@ class Solution {
 public:
     vector<int> findMissingElements(vector<int>& nums) {
         int n = nums.size();
-        sort(nums.begin(), nums.end());
 
-        int mini = nums[0];
-        int maxi = nums[n-1];
+        int mini = INT_MAX;
+        int maxi = INT_MIN;
+        for(int val : nums){
+            mini = min(mini, val);
+            maxi = max(maxi, val);
+        }
         
         unordered_map<int, int> freq;
         for(int val : nums){
@@ -19,6 +22,6 @@ public:
             }
         }
 
-    return ans;
+        return ans;
     }
 };

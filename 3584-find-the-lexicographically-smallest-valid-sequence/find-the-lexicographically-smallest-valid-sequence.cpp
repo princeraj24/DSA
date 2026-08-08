@@ -20,16 +20,14 @@ public:
         }
 
         vector<int> ans;
-        int k = 0;
         j = 0;
         bool used = false;
 
-        for(int i = 0; i < n && k < m; i++) {
+        for(int i = 0; i < n && j < m; i++) {
 
             // Current character matches
             if(word1[i] == word2[j]) {
                 ans.push_back(i);
-                k++;
                 j++;
             }
 
@@ -40,14 +38,13 @@ public:
                 // characters of word2 be formed?
                 if(suf[i + 1] >= m - j - 1) {
                     ans.push_back(i);
-                    k++;
                     j++;
                     used = true;
                 }
             }
         }
 
-        if(k == m) {
+        if(j == m) {
             return ans;
         }
 

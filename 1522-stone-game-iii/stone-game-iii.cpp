@@ -1,8 +1,8 @@
 class Solution {
 public:
-    int t[50001];
     int n;
-    int solve(int i, vector<int>& stoneValue){
+    int t[50001];
+    int solveDifference(int i, vector<int>& stoneValue){
         if(i >= n){
             return 0;
         }
@@ -11,17 +11,16 @@ public:
             return t[i];
         }
 
-        int result = INT_MIN;
         int stones = 0;
-        
-        result = max(result, stoneValue[i] - solve(i+1, stoneValue));
+        int result = INT_MIN;
+        for(int x = 1; x <= 3; x++){
+            if(i + x > n){
+                break;
+            }
 
-        if(i + 1 < n){
-            result = max(result, stoneValue[i] + stoneValue[i+1] - solve(i+2, stoneValue));
-        }
-        
-        if(i + 2 < n){
-            result = max(result, stoneValue[i] + stoneValue[i+1] + stoneValue[i+2] - solve(i+3, stoneValue));
+            stones += stoneValue[i + x - 1];
+            
+            result = max(result, stones - solveDifference(i + x, stoneValue));
         }
 
         return t[i] = result;
@@ -29,14 +28,13 @@ public:
     string stoneGameIII(vector<int>& stoneValue) {
         n = stoneValue.size();
         memset(t, -1, sizeof(t));
+        int netScore = solveDifference(0, stoneValue);
 
-        int net_Score = solve(0, stoneValue);
-
-        if(net_Score > 0){
+        if(netScore > 0){
             return "Alice";
         }
 
-        else if(net_Score < 0){
+        if(netScore < 0){
             return "Bob";
         }
 

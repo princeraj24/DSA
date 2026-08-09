@@ -1,9 +1,7 @@
 class Solution {
 public:
-    // person 1 -> Alice
-    // person 0 -> Bob
-    int t[2][101][101];
     int n;
+    int t[2][101][101];
     int solveForAlice(int person, int i, int M, vector<int>& piles){
         if(i >= n){
             return 0;
@@ -15,24 +13,24 @@ public:
 
         int result = (person == 1) ? -1 : INT_MAX;
         int stones = 0;
-        for(int x = 1; x <= min(2 * M, n - i); x++){
-            
-            stones += piles[i + x - 1];
+        for(int x = 1; x <= min(2 * M, n - i); x++){ // x bas bata raha hai kitna element le skte hain
 
-            if(person == 1){  // Alice turn
-                result = max(result, stones + solveForAlice(0, i + x, max(x, M), piles));
+            stones += piles[i+x-1];
+            
+            if(person == 1){
+                result = max(result, stones + solveForAlice(0, i + x, max(M, x), piles));
             }
 
-            else {   //Bob's turn
-                result = min(result, solveForAlice(1, i + x, max(x, M), piles));
+            else{
+                result = min(result, solveForAlice(1, i + x, max(M, x), piles));
             }
         }
 
         return t[person][i][M] = result;
     }
     int stoneGameII(vector<int>& piles) {
-        memset(t, -1, sizeof(t));
         n = piles.size();
+        memset(t, -1, sizeof(t));
 
         return solveForAlice(1, 0, 1, piles);
     }

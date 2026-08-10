@@ -3,8 +3,8 @@ public:
     // person 1 -> Alice
     // person 0 -> Bob
     int solveForPerson(int person, int n, vector<vector<int>>& dp){
-        if(n <= 0){
-            return 1 - person;
+        if(n == 1){
+            return person;
         }
 
         if(dp[person][n] != -1){

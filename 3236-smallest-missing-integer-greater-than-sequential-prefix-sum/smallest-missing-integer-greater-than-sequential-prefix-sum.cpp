@@ -18,12 +18,12 @@ public:
             return prefix_sum;
         }
 
-        unordered_map<int, int> mp;
+        set<int> st;
         for(int idx = 0; idx < n; idx++){
-            mp[nums[idx]]++;
+            st.insert(nums[idx]);
         }
 
-        while(mp.find(prefix_sum) != mp.end()){
+        while(st.count(prefix_sum)){
             prefix_sum++;
         }
 

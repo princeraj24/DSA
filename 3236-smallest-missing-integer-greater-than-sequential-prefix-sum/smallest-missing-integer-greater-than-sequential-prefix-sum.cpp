@@ -18,13 +18,12 @@ public:
             return prefix_sum;
         }
 
-        set<int> st;
-        for(int idx = 0; idx < n; idx++){
-            st.insert(nums[idx]);
-        }
+        sort(nums.begin(), nums.end());
 
-        while(st.count(prefix_sum)){
-            prefix_sum++;
+        for(int x : nums){
+            if(prefix_sum == x){
+                prefix_sum++;
+            }
         }
 
         return prefix_sum;

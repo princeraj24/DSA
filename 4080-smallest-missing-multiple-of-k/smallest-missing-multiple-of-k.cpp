@@ -1,20 +1,15 @@
 class Solution {
 public:
     int missingMultiple(vector<int>& nums, int k) {
-        vector<bool> present(101, false);
+        sort(nums.begin(), nums.end());
+        int expected = k;
+
         for(int val : nums){
-            present[val] = true;
-        }
-
-        int j = 1;
-        for(int i = 1; i <= 100/k; i++){
-            int val = k * i;
-            if(!present[val]){
-                return val;
+            if(expected == val){
+                expected += k;
             }
-            j++;
         }
 
-        return k * j;
+        return expected;
     }
 };

@@ -1,27 +1,38 @@
 class Solution {
 public:
-    bool sumGame(string s) {
-        double res = 0;
-        double n = s.length();
-        for (int i = 0; i < n; i++) {
-            double sign;
-            if (i < n / 2) {
-                sign = 1;
-            } else {
-                sign = -1;
-            }
-            double value;
-            if (s[i] == '?') {
-                value = 4.5;
-            } else {
-                value = s[i] - '0';
-            }
-            res += sign * value;
-        }
-        if (res != 0.0) {
+    bool sumGame(string num) {
+        int n = num.size();
+        if(n % 2 != 0){
             return true;
-        } else {
-            return false;
         }
+
+        int leftCnt = 0;
+        double leftKnownSum = 0;
+
+        int rightCnt = 0;
+        double rightKnownSum = 0;
+
+        for(int i = 0; i < n/2; i++){
+            if(num[i] == '?'){
+                leftCnt++;
+            }
+
+            if(num[n-1-i] == '?'){
+                rightCnt++;
+            }
+
+            if(num[i] != '?'){
+                leftKnownSum += (num[i] - '0');
+            }
+
+            if(num[n-1-i] != '?'){
+                rightKnownSum += (num[n-1-i] - '0');
+            }
+        }
+
+        leftKnownSum += 4.5 * leftCnt;
+        rightKnownSum += 4.5 * rightCnt;
+
+        return (leftKnownSum == rightKnownSum) ? false : true;
     }
 };

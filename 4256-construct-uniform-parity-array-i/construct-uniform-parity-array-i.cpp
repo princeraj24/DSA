@@ -19,9 +19,9 @@ public:
             }
         }
 
-        if(allOdd == true || allEven == true){
-            return true;
-        }
+        // if(allOdd == true || allEven == true){
+        //     return true;
+        // }
 
         return true;
     }

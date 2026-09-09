@@ -5,20 +5,12 @@ public:
             return 0;
         }
 
-        long long lower = 1000;
-        int comma = 1;
+        long long start = 1000;
         long long ans = 0;
-        while(lower <= n){
-            long long upper = lower * 1000 - 1;
-            if(upper > n){
-                upper = n;
-            }
+        while(start <= n){
+            ans += (n - start + 1);
 
-            long long countNos = (upper - lower + 1);
-            ans += countNos * comma;
-
-            comma++;
-            lower = lower * 1000;
+            start = start * 1000;
         }
 
         return ans;

@@ -2,6 +2,7 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         int n = nums.size();
+
         int prefix = 1;
         int suffix = 1;
         int maxi = INT_MIN;
@@ -17,6 +18,7 @@ public:
 
             prefix = prefix * nums[i];
             suffix = suffix * nums[n-i-1];
+
             maxi = max({maxi, prefix, suffix});
         }
 

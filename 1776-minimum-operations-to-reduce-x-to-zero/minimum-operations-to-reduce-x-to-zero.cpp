@@ -4,26 +4,26 @@ public:
         int n = nums.size();
 
         long long total = 0;
-        for(int num : nums){
-            total += num;
+        for(int i = 0; i < n; i++){
+            total += nums[i];
         }
 
         long long target = total - x;
+        if(target == 0){
+            return n;
+        }
 
         if(target < 0){
             return -1;
         }
 
-        // target == 0 means remove everything
-        if(target == 0){
-            return n;
-        }
-
         int i = 0;
-        long long sum = 0;
+        int j = 0;
         int maxLen = -1;
+        long long sum = 0;
 
-        for(int j = 0; j < n; j++){
+        // Apply sliding window to find max size of subarray exist whose sum is equal to target so that the rest size sum equals to x is minimum.
+        while(j < n){
             sum += nums[j];
 
             while(i <= j && sum > target){
@@ -31,15 +31,12 @@ public:
                 i++;
             }
 
-            if(sum == target){
+            if(target == sum){
                 maxLen = max(maxLen, j - i + 1);
             }
+            j++;
         }
 
-        if(maxLen == -1){
-            return -1;
-        }
-
-        return n - maxLen;
+        return (maxLen == -1) ? -1 : n - maxLen;
     }
 };
